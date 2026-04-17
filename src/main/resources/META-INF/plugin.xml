@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.zohocrm.deluge</id>
     <name>Deluge Language Support</name>
-    <vendor email="amine.kacem@github.com" url="https://github.com/amine-kacem-tech">Amine Kacem</vendor>
+    <vendor email="amine.kacem.tech@gmail.com" url="https://github.com/amine-kacem-tech">Amine Kacem</vendor>
 
     <description><![CDATA[
         Language support for Zoho Deluge scripting language with Deluge coding standards enforcement.
@@ -46,6 +46,19 @@
             <li><b>pagination</b> - Pagination pattern</li>
         </ul>
     ]]></description>
+
+    <change-notes><![CDATA[
+        <h3>1.0.1</h3>
+        <ul>
+            <li>Initial public release</li>
+            <li>Syntax highlighting for all Deluge keywords, functions, and operators</li>
+            <li>Code folding for blocks and comments</li>
+            <li>13 live templates for common Deluge patterns</li>
+            <li>Deluge coding standards v2.3 enforcement</li>
+            <li>Code formatting with proper indentation</li>
+            <li>Real-time error detection for braces, parentheses, and semicolons</li>
+        </ul>
+    ]]></change-notes>
 
     <!-- Product and plugin compatibility requirements -->
     <depends>com.intellij.modules.platform</depends>

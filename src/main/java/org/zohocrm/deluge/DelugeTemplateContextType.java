@@ -6,9 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class DelugeTemplateContextType extends TemplateContextType {
 
-    @SuppressWarnings("deprecation")
     protected DelugeTemplateContextType() {
-        super("DELUGE", "Deluge");
+        super("DELUGE");
     }
 
     @Override
@@ -17,4 +16,3 @@ public class DelugeTemplateContextType extends TemplateContextType {
         return context.getFile() instanceof DelugeFile;
     }
 }
-
