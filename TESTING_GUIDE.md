@@ -5,7 +5,7 @@
 1. **Install the plugin**:
    ```
    File → Settings → Plugins → ⚙️ → Install Plugin from Disk...
-   → Select: build/distributions/ZohoCRMDelugeAssistantV1-1.0-SNAPSHOT.zip
+   → Select: build/distributions/deluge-intellij-plugin-1.0.1.zip
    ```
 
 2. **Restart IntelliJ IDEA** (required for plugin to activate)
