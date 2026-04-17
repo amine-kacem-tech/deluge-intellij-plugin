@@ -1,0 +1,106 @@
+<idea-plugin>
+    <id>org.zohocrm.deluge</id>
+    <name>Deluge Language Support</name>
+    <vendor email="amine.kacem@github.com" url="https://github.com/amine-kacem-tech">Amine Kacem</vendor>
+
+    <description><![CDATA[
+        Language support for Zoho Deluge scripting language with Deluge coding standards enforcement.
+
+        <h3>Features:</h3>
+        <ul>
+            <li><b>File Type Recognition:</b> .deluge files with custom icon</li>
+            <li><b>Syntax Highlighting:</b> Full colorization for keywords, functions, strings, and comments</li>
+            <li><b>Code Folding:</b> Collapse/expand code blocks and multi-line comments</li>
+            <li><b>Live Templates:</b> 13+ pre-configured code snippets for all function types</li>
+            <li><b>Coding Standards:</b> Real-time enforcement of Deluge coding standards v2.3</li>
+            <li><b>Code Formatting:</b> Reformat Code (Ctrl+Alt+L) with proper indentation and spacing</li>
+            <li><b>Error Detection:</b> Brace/paren matching, missing semicolons, forbidden syntax</li>
+            <li><b>Lexer Support:</b> Token recognition for Deluge syntax</li>
+        </ul>
+
+        <h3>Supported Function Types:</h3>
+        <ul>
+            <li>Standalone functions (string return with fake return)</li>
+            <li>Automation functions (void return, no fake return)</li>
+            <li>Validation rule functions (map return)</li>
+            <li>Schedule functions (void return)</li>
+            <li>Related list functions (XML string return)</li>
+            <li>Button functions (string return)</li>
+        </ul>
+
+        <h3>Live Templates:</h3>
+        <p>Type these shortcuts and press Tab:</p>
+        <ul>
+            <li><b>standalone</b> - Complete standalone function</li>
+            <li><b>automation</b> - Automation function</li>
+            <li><b>validation</b> - Validation rule</li>
+            <li><b>schedule</b> - Schedule function</li>
+            <li><b>button</b> - Button function</li>
+            <li><b>relatedlist</b> - Related list function</li>
+            <li><b>try</b> - Try-catch block</li>
+            <li><b>log</b> - Developer log</li>
+            <li><b>foreach</b> - For each loop</li>
+            <li><b>ifnull</b> - If null check</li>
+            <li><b>getrecord</b> - Get record with ID conversion</li>
+            <li><b>updaterecord</b> - Update record</li>
+            <li><b>pagination</b> - Pagination pattern</li>
+        </ul>
+    ]]></description>
+
+    <!-- Product and plugin compatibility requirements -->
+    <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Language Registration -->
+        <lang.parserDefinition
+                language="Deluge"
+                implementationClass="org.zohocrm.deluge.DelugeParserDefinition"/>
+
+        <!-- File Type -->
+        <fileType
+                name="Deluge"
+                implementationClass="org.zohocrm.deluge.DelugeFileType"
+                fieldName="INSTANCE"
+                language="Deluge"
+                extensions="deluge;dg"/>
+
+        <!-- Syntax Highlighter -->
+        <lang.syntaxHighlighterFactory
+                language="Deluge"
+                implementationClass="org.zohocrm.deluge.DelugeSyntaxHighlighterFactory"/>
+
+        <!-- Code Folding -->
+        <lang.foldingBuilder
+                language="Deluge"
+                implementationClass="org.zohocrm.deluge.DelugeFoldingBuilder"/>
+
+        <!-- Live Templates -->
+        <defaultLiveTemplates file="/liveTemplates/Deluge.xml"/>
+        <liveTemplateContext
+                contextId="DELUGE"
+                implementation="org.zohocrm.deluge.DelugeTemplateContextType"/>
+
+        <!-- Syntax Error Detection (braces, parens, semicolons) -->
+        <annotator
+                language="Deluge"
+                implementationClass="org.zohocrm.deluge.DelugeSyntaxAnnotator"/>
+
+        <!-- Coding Standards Enforcement (v2.3) -->
+        <annotator
+                language="Deluge"
+                implementationClass="org.zohocrm.deluge.DelugeStandardsAnnotator"/>
+
+        <!-- Code Formatting (Ctrl+Alt+L) -->
+        <lang.formatter
+                language="Deluge"
+                implementationClass="org.zohocrm.deluge.DelugeFormattingModelBuilder"/>
+
+        <!-- Code Style Settings (Settings > Editor > Code Style > Deluge) -->
+        <langCodeStyleSettingsProvider
+                implementation="org.zohocrm.deluge.DelugeLanguageCodeStyleSettingsProvider"/>
+    </extensions>
+
+
+</idea-plugin>
+

@@ -1,0 +1,219 @@
+// ===========================================
+// DELUGE PLUGIN DEMO FILE
+// This file demonstrates syntax highlighting and error detection
+// ===========================================
+
+// ========== CORRECT SYNTAX EXAMPLES ==========
+
+// Automation function with proper syntax
+void automation_ProcessLead(string leadId) {
+    try {
+        // Convert ID and fetch record
+        recordId = leadId.toLong();
+        leadRecord = zoho.crm.getRecordById("Leads", recordId);
+
+        // Null check
+        if (!isNull(leadRecord)) {
+            // Update logic
+            updateMap = Map();
+            updateMap.put("Status", "Qualified");
+
+            // Perform update
+            response = zoho.crm.updateRecord("Leads", recordId, updateMap);
+            info "Lead updated: " + leadId;
+        }
+    } catch (e) {
+        info "Error: " + e;
+    }
+}
+
+// Standalone function with return
+string standalone_GetAccountName(string accountId) {
+    try {
+        recordId = accountId.toLong();
+        accountRecord = zoho.crm.getRecordById("Accounts", recordId);
+
+        if (!isNull(accountRecord)) {
+            return accountRecord.get("Account_Name");
+        }
+    } catch (e) {
+        info "Error: " + e;
+    }
+
+    return ""; // Fake return
+}
+
+// ========== SYNTAX ERRORS - UNCOMMENT TO TEST ==========
+
+// ERROR 1: Missing opening brace
+// void testMissingOpenBrace()
+//     info "This should error";
+// }
+
+// ERROR 2: Missing closing brace
+// void testMissingCloseBrace() {
+//     info "This function is not closed";
+//     name = "test";
+
+// ERROR 3: Missing semicolon
+// void testMissingSemicolon() {
+//     name = "John"
+//     age = 25;
+// }
+
+// ERROR 4: Unmatched parenthesis
+// void testUnmatchedParen() {
+//     info ("Missing closing paren";
+//     value = calculate(10, 20;
+// }
+
+// ERROR 5: Unmatched bracket
+// void testUnmatchedBracket() {
+//     list = [1, 2, 3;
+//     value = list[0;
+// }
+
+// ERROR 6: Multiple errors
+// void testMultipleErrors() {
+//     name = "Test"
+//     list = [1, 2, 3;
+//     info ("Error test"
+//     if (true) {
+//         info "Missing closing brace for if and function";
+//
+
+// ========== SYNTAX HIGHLIGHTING TEST ==========
+
+void demonstrateSyntaxHighlighting() {
+    // Keywords should be highlighted
+    if (true) {
+        info "Keywords: if, else, for, while, try, catch, return";
+    }
+
+    // String highlighting
+    message = "This is a string literal";
+    singleQuote = 'Single quote string';
+
+    // Number highlighting
+    integer = 42;
+    decimal = 3.14159;
+
+    // Boolean highlighting
+    isActive = true;
+    isDeleted = false;
+    nullValue = null;
+
+    // Operator highlighting
+    sum = 10 + 20;
+    product = 5 * 6;
+    isEqual = (sum == 30);
+    isGreater = (product > 25);
+    logicalAnd = (true && false);
+    logicalOr = (true || false);
+
+    // Function calls (Zoho API)
+    record = zoho.crm.getRecordById("Leads", 123456789);
+    records = zoho.crm.getRecords("Contacts", 1, 200);
+    encoded = zoho.encryption.base64Encode("test");
+
+    // Built-in functions
+    converted = toLong("12345");
+    stringValue = toString(123);
+    listValue = toList("[1,2,3]");
+    mapValue = toMap('{"key":"value"}');
+
+    // Type checking
+    if (isNull(record)) {
+        info "Record is null";
+    }
+
+    if (isEmpty(message)) {
+        info "Message is empty";
+    }
+
+    // Collections
+    myMap = Map();
+    myMap.put("key1", "value1");
+    myMap.put("key2", "value2");
+
+    myList = List();
+    myList.add("item1");
+    myList.add("item2");
+
+    // Loops
+    for each item in myList {
+        info "Item: " + item;
+    }
+
+    // Comments
+    // This is a single-line comment
+
+    /*
+     * This is a multi-line comment
+     * It can span multiple lines
+     */
+
+    info "Syntax highlighting complete!";
+}
+
+// ========== VALIDATION RULE EXAMPLE ==========
+
+map validation_CheckEmail(string email) {
+    responseMap = Map();
+
+    if (isBlank(email)) {
+        responseMap.put("valid", false);
+        responseMap.put("message", "Email is required");
+        return responseMap;
+    }
+
+    if (!email.contains("@")) {
+        responseMap.put("valid", false);
+        responseMap.put("message", "Invalid email format");
+        return responseMap;
+    }
+
+    responseMap.put("valid", true);
+    return responseMap;
+}
+
+// ========== COMPLEX EXAMPLE ==========
+
+void processRecordWithPagination(string moduleName) {
+    try {
+        page = 1;
+        hasMore = true;
+        totalProcessed = 0;
+
+        while (hasMore) {
+            // Fetch records with pagination
+            response = zoho.crm.getRecords(moduleName, page, 200);
+            records = response.get("data");
+
+            if (!isNull(records) && records.size() > 0) {
+                for each record in records {
+                    // Process each record
+                    recordId = record.get("id");
+                    recordName = record.get("Name");
+
+                    info "Processing: " + recordName;
+
+                    // Update counter
+                    totalProcessed = totalProcessed + 1;
+                }
+
+                // Check if there are more records
+                pageInfo = response.get("info");
+                hasMore = pageInfo.get("more_records");
+                page = page + 1;
+            } else {
+                hasMore = false;
+            }
+        }
+
+        info "Total processed: " + totalProcessed;
+    } catch (e) {
+        info "Error in pagination: " + e;
+    }
+}
+

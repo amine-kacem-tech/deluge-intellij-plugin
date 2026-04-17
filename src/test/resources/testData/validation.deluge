@@ -1,0 +1,29 @@
+// Test Validation Rule Function
+// This is a sample validation rule function for testing purposes
+
+map testValidationRule(map recordData) {
+    try {
+        validationResult = Map();
+
+        // Get field value
+        amount = recordData.get("Amount");
+
+        // Validate
+        if (amount != null && amount > 1000000) {
+            validationResult.put("isValid", false);
+            validationResult.put("message", "Amount exceeds maximum limit of 1,000,000");
+        } else {
+            validationResult.put("isValid", true);
+            validationResult.put("message", "Amount is valid");
+        }
+
+        return validationResult;
+    } catch (e) {
+        info "ERROR in testValidationRule: " + e;
+        errorResult = Map();
+        errorResult.put("isValid", false);
+        errorResult.put("message", "Validation error occurred");
+        return errorResult;
+    }
+}
+

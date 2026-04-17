@@ -1,0 +1,23 @@
+// Test Automation Function
+// This is a sample automation function for testing purposes
+
+void testAutomationFunction(string recordId) {
+    try {
+        // Log start
+        info "Starting automation for record: " + recordId;
+
+        // Get record
+        recordMap = zoho.crm.getRecordById("Leads", recordId.toLong());
+
+        // Process record
+        if (recordMap != null) {
+            info "Processing record: " + recordMap.get("Name");
+        }
+
+        // Log completion
+        info "Automation completed successfully";
+    } catch (e) {
+        info "ERROR in testAutomationFunction: " + e
+    }
+}
+

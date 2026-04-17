@@ -1,0 +1,24 @@
+// Test Standalone Function
+// This is a sample standalone function for testing purposes
+
+string testStandaloneFunction(string inputParam) {
+    try {
+        // Validate input
+        if (inputParam == null || inputParam.isEmpty()) {
+            return "ERROR_EMPTY_INPUT";
+        }
+
+        // Log processing
+        info "Processing input: " + inputParam;
+
+        // Perform some logic
+        result = inputParam.toUpperCase();
+
+        // Return success with result
+        return result;
+    } catch (e) {
+        info "ERROR in testStandaloneFunction: " + e;
+        return "ERROR_EXCEPTION";
+    }
+}
+

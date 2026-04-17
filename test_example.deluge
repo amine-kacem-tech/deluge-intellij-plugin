@@ -1,0 +1,65 @@
+// Example Deluge file to test icon and syntax highlighting
+void automation_UpdateContact(string contactId, Map data)
+{
+    try
+    {
+        // Get record by ID with conversion
+        recordId = toLong(contactId);
+        contactRecord = zoho.crm.getRecordById("Contacts", recordId)
+
+        // Check if null
+        if(isNull(contactRecord))
+        {
+            info "Contact not found: " + contactId;
+            return;
+        }
+
+        // Update record
+        updateMap = Map();
+        updateMap.put("First_Name", data.get("firstName"));
+        updateMap.put("Last_Name", data.get("lastName"));
+
+        // Execute update
+        response = zoho.crm.updateRecord("Contacts", recordId, updateMap);
+
+        // Log result
+        if(response.get("status") == "success")
+        {
+            info "Successfully updated contact: " + contactId;
+        }
+        else
+        {
+            info "Failed to update contact: " + response.get("message");
+        }
+    }
+    catch(e)
+    {
+        info "Error updating contact: " + e.toString();
+    }
+}
+
+// Standalone function with return
+string standalone_GetContactName(string contactId)
+{
+    try
+    {
+        // Variables
+        recordId = toLong(contactId);
+        contactRecord = zoho.crm.getRecordById("Contacts", recordId);
+
+        // Build name
+        firstName = ifNull(contactRecord.get("First_Name"), "");
+        lastName = ifNull(contactRecord.get("Last_Name"), "");
+        fullName = firstName + " " + lastName;
+
+        return fullName.trim();
+    }
+    catch(e)
+    {
+        info "Error: " + e.toString();
+    }
+
+    // Fake return for standalone
+    return "";
+}
+

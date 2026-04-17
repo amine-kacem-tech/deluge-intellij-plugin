@@ -1,0 +1,30 @@
+// Test file with intentional syntax errors
+// This file demonstrates the syntax error detection capabilities
+
+void testFunction() {
+    // Missing opening brace - should show error
+    info "This is a test";
+
+    // Missing semicolon - should show error
+    name = "John"
+
+    // Mismatched parentheses
+    info "Hello World"
+
+    // Missing closing brace for function - should show error at opening brace
+
+
+void anotherFunction() {
+    // Proper syntax
+    info "This is correct";
+
+    // Unclosed parenthesis
+    info ("Unclosed paren";
+
+    // Unclosed bracket
+    list = [1, 2, 3;
+
+    // Extra closing brace
+    }
+}
+

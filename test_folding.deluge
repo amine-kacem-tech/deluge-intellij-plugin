@@ -1,0 +1,123 @@
+/*
+ * Test file for code folding
+ * All nested braces {} and brackets [] should be foldable
+ */
+
+string standalone.testNestedFolding()
+{
+	// Test nested maps
+	map level1 = {
+		"name": "Level 1",
+		"nested": {
+			"name": "Level 2",
+			"deeper": {
+				"name": "Level 3",
+				"value": "Deep value"
+			}
+		},
+		"another": {
+			"key": "value"
+		}
+	};
+
+	// Test nested arrays
+	list matrix = [
+		[1, 2, 3],
+		[4, 5, 6],
+		[
+			[7, 8],
+			[9, 10]
+		]
+	];
+
+	// Test mixed nesting
+	map complex = {
+		"users": [
+			{
+				"id": 1,
+				"name": "John",
+				"roles": ["admin", "user"]
+			},
+			{
+				"id": 2,
+				"name": "Jane",
+				"roles": ["user"]
+			}
+		],
+		"settings": {
+			"theme": "dark",
+			"options": {
+				"notifications": true,
+				"preferences": {
+					"language": "en",
+					"timezone": "UTC"
+				}
+			}
+		}
+	};
+
+	// Test control structures with nested blocks
+	if(level1.containsKey("nested"))
+	{
+		for each user in complex.get("users")
+		{
+			if(user.get("id") == 1)
+			{
+				info "Found admin";
+			}
+			else
+			{
+				info "Regular user";
+			}
+		}
+	}
+
+	// Test try-catch with nested code
+	try
+	{
+		response = invokeurl
+		[
+			url : "https://api.example.com"
+			type : GET
+			parameters : {
+				"key": "value",
+				"nested": {
+					"data": "test"
+				}
+			}
+		];
+
+		if(response.get("status") == "success")
+		{
+			data = response.get("data");
+			for each item in data
+			{
+				info item.get("name");
+			}
+		}
+	}
+	catch(e)
+	{
+		info "Error occurred: " + e;
+	}
+
+	return {"success": true, "data": complex};
+}
+
+/*
+ * Multi-line block comment
+ * This should also be foldable
+ * Line 3
+ * Line 4
+ */
+
+string standalone.anotherFunction()
+{
+	// Another function to test folding
+	map simple = {
+		"a": "b"
+	};
+
+	return simple.toString();
+}
+

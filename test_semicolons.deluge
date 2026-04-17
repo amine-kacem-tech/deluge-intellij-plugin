@@ -1,0 +1,57 @@
+/*
+ * Test file for semicolon error detection
+ * Lines marked with ERROR should show missing semicolon errors
+ */
+
+string standalone.testSemicolonErrors()
+{
+	// ERROR: Missing semicolon after variable assignment
+	name = "John"
+
+	// ERROR: Missing semicolon after number
+	age = 25
+
+	// ERROR: Missing semicolon after function call
+	info "Starting process"
+
+	// ERROR: Missing semicolon after map
+	data = {"key": "value"}
+
+	// CORRECT: Has semicolon
+	status = "active";
+
+	// CORRECT: Expression continues with operator
+	total = 10 +
+	        20 +
+	        30;
+
+	// CORRECT: Dot notation continues
+	record = zoho.crm.
+	         getRecordById("Leads", "123");
+
+	// ERROR: Missing semicolon after array
+	list_data = [1, 2, 3, 4, 5]
+
+	// CORRECT: Control structures don't need semicolons
+	if(age > 18)
+	{
+		info "Adult";
+	}
+	else
+	{
+		info "Minor";
+	}
+
+	// ERROR: Missing semicolon after break
+	for each item in list_data
+	{
+		if(item == 3)
+		{
+			break
+		}
+	}
+
+	// CORRECT: Return with semicolon
+	return {"success": true};
+}
+

@@ -1,0 +1,177 @@
+/*
+ * Test file to verify guideline keywords are properly colorized
+ * Based on DELUGE_CODING_STANDARDS_v2.3.md
+ */
+
+string standalone.testGuidelinesColorization(String recordId)
+{
+	/*
+	 * Description: Test all keywords from coding standards
+	 */
+
+	try
+	{
+		// ========== Keywords - Should be colorized ==========
+
+		// Return types
+		void automation_test;
+		string str_test;
+		map map_test;
+		int int_test;
+		list list_test;
+		bool bool_test;
+
+		// Parameter types (capitalized)
+		String param1;
+		Int param2;
+		Map param3;
+		List param4;
+		Bool param5;
+
+		// Namespaces
+		standalone.test()
+		automation.test();
+		validation_rule.test();
+		schedule.test();
+		related_list.test();
+		button.test();
+
+		// Control flow
+		if(true)
+		{
+			for each item in list()
+			{
+				return item;
+			}
+		}
+		else
+		{
+			while(false)
+			{
+				break;
+				continue;
+			}
+		}
+
+		// Exception handling
+		try
+		{
+			// code
+		}
+		catch(e)
+		{
+			// error
+		}
+
+		// Boolean values
+		is_true = true;
+		is_false = false;
+		is_null = null;
+
+		// Deluge operators
+		if(value is true)
+		{
+			info "Value is true";
+		}
+
+		// ========== Built-in Functions - Should be colorized ==========
+
+		// Constructors
+		my_map = Map();
+		my_list = List();
+
+		// Null checking
+		if(isNull(value)) {}
+		if(isnull(value)) {}
+		if(isBlank(value)) {}
+		if(isblank(value)) {}
+		if(isEmpty(value)) {}
+		if(isempty(value)) {}
+		result = ifNull(value, default);
+		result = ifnull(value, default);
+
+		// Type checking
+		if(isText(value)) {}
+		if(isNumber(value)) {}
+
+		// Conversion functions
+		long_val = toLong(value);
+		decimal_val = toDecimal(value);
+		date_val = toDate(value);
+		list_val = toList(value);
+		map_val = toMap(value);
+		str_val = toString(value);
+		json_val = toJSONString(value);
+		num_val = toNumber(value);
+		file_val = toFile(value);
+
+		// Math functions
+		ceil_val = ceil(5.2);
+		round_val = round(5.6);
+		floor_val = floor(5.8);
+
+		// String functions
+		padded = leftpad("text", 10);
+		replaced = replaceAll("text", "old", "new");
+		trimmed = trim("  text  ");
+		upper = toUpperCase("text");
+		lower = toLowerCase("TEXT");
+
+		// Logging
+		info "This is a log message";
+
+		// ========== Zoho API - Should be colorized ==========
+
+		// zoho.crm methods
+		record = zoho.crm.getRecordById("Module", id);
+		records = zoho.crm.getRelatedRecords("Related", "Module", id);
+		search = zoho.crm.searchRecords("Module", criteria);
+		update = zoho.crm.updateRecord("Module", id, data);
+		create = zoho.crm.createRecord("Module", data);
+		delete = zoho.crm.deleteRecord("Module", id);
+		all_records = zoho.crm.getRecords("Module");
+		org_var = zoho.crm.getOrgVariable("var_name");
+		attach = zoho.crm.attachFile("Module", id, file);
+
+		// zoho.encryption methods
+		encoded = zoho.encryption.base64Encode(data);
+		decoded = zoho.encryption.base64Decode(encoded);
+		url_encoded = zoho.encryption.urlEncode(url);
+
+		// Other Zoho functions
+		response = invokeurl
+		[
+			url : "https://api.example.com"
+			type : GET
+		];
+		user_id = zoho.loginuserid;
+		current_time = zoho.now;
+
+		// ========== Collection Methods - NOT keywords, should be identifiers ==========
+		// These are object methods, not language keywords
+
+		size = my_list.size();
+		my_list.add("item");
+		my_list.addAll(other_list);
+		has_item = my_list.contains("item");
+		has_key = my_map.containsKey("key");
+		value = my_map.get("key");
+		my_map.put("key", "value");
+		map_keys = my_map.keys();
+		sublist = my_list.subList(0, 5);
+		text_length = text.length();
+		epoch = date.unixEpoch();
+		months = start_date.monthsDiff(end_date);
+		days = start_date.daysBetween(end_date);
+		new_date = date.addMonth(1);
+
+		return {"success": true, "message": "All guidelines tested"};
+	}
+	catch(e)
+	{
+		return {"success": false, "error": e};
+	}
+
+	return "FAKE_RETURN_TO_SATISFY_DELUGE";
+}
+

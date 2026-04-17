@@ -1,0 +1,168 @@
+string standalone.requestToPace(String queryString,String queryType,String queryBody)
+{
+	// ============================================================================
+	// Description:
+	//   Makes HTTP requests to PACE API with proper authentication
+	//   Supports POST, PUT, GET, DELETE operations
+	//   Originally created for createOrUpdateIndicativeQuote but can be used for all PACE API calls
+	//
+	// Parameters:
+	//   @param queryString (String) - API endpoint path to append to PACE base URL
+	//   @param queryType (String) - HTTP method: "POST", "PUT", "GET", or "DELETE"
+	//   @param queryBody (String) - Request body/parameters (use depends on HTTP method)
+	//
+	// Returns:
+	//   Map with:
+	//     - success (Boolean): true if request succeeded, false otherwise
+	//     - message: Response data on success, error message on failure
+	//
+	// Author: EA
+	// ============================================================================
+
+	// Constants
+	HTTP_STATUS_CONFLICT = 409;
+	HTTP_STATUS_PREFIX_CLIENT_ERROR = "40";
+	RESPONSE_KEY_SUCCESS = "success";
+	RESPONSE_KEY_MESSAGE = "message";
+	VALID_HTTP_METHODS = {"POST","PUT","GET","DELETE"};
+
+	// Variables
+	function_name = "requestToPace";
+	opt_data = "queryString: " + queryString + " -queryType: " + queryType + " -queryBody:" + queryBody;
+	endpoint_pace = zoho.crm.getOrgVariable("PACE_Endpoint");
+	response_map = Map();
+
+	try
+	{
+		// ============================================================================
+		// SECTION 1: Input Validation
+		// ============================================================================
+
+		// Validate required parameters
+		if(isNull(queryString) || queryString.trim().isEmpty())
+		{
+			log_type = "error";
+			log_message = "queryString parameter is required and cannot be empty";
+			standalone.developerLog(function_name,log_type,log_message,zoho.loginuserid,opt_data);
+			response_map.put(RESPONSE_KEY_SUCCESS,false);
+			response_map.put(RESPONSE_KEY_MESSAGE,log_message);
+			return response_map;
+		}
+
+		// Validate queryType is supported
+		if(isNull(queryType) || !VALID_HTTP_METHODS.contains(queryType.toUpperCase()))
+		{
+			log_type = "error";
+			log_message = "Invalid queryType: '" + queryType + "'. Supported methods are: POST, PUT, GET, DELETE";
+			standalone.developerLog(function_name,log_type,log_message,zoho.loginuserid,opt_data);
+			response_map.put(RESPONSE_KEY_SUCCESS,false);
+			response_map.put(RESPONSE_KEY_MESSAGE,log_message);
+			return response_map;
+		}
+
+		// ============================================================================
+		// SECTION 2: Authentication
+		// ============================================================================
+
+		// Get Pace authorization parameters
+		access_token = standalone.authPACE();
+		token = access_token.get("token");
+		session_id = access_token.get("sessionID");
+		header_map = Map();
+		header_map.put("SESSION-ID",session_id);
+		header_map.put("Authorization",token);
+
+		// ============================================================================
+		// SECTION 3: Execute HTTP Request
+		// ============================================================================
+
+		// Execute HTTP request based on query type
+		if(queryType == "POST")
+		{
+			response = invokeurl
+			[
+				url :endpoint_pace + queryString
+				type :POST
+				parameters:queryBody
+				headers:header_map
+			];
+		}
+		else if(queryType == "PUT")
+		{
+			response = invokeurl
+			[
+				url :endpoint_pace + queryString
+				type :PUT
+				body:queryBody
+				headers:header_map
+			];
+		}
+		else if(queryType == "GET")
+		{
+			response = invokeurl
+			[
+				url :endpoint_pace + queryString
+				type :GET
+				headers:header_map
+			];
+		}
+		else if(queryType == "DELETE")
+		{
+			response = invokeurl
+			[
+				url :endpoint_pace + queryString
+				type :DELETE
+				headers:header_map
+			];
+		}
+
+		// ============================================================================
+		// SECTION 4: Handle Response
+		// ============================================================================
+
+		// Handle empty response
+		if(isNull(response) || isEmpty(response))
+		{
+			// Empty response - may not always be an error (to be determined)
+		}
+
+		// Check for HTTP error codes
+		if(!isNull(response.get("code")) && !isEmpty(response.get("code")))
+		{
+			if(response.get("code") == HTTP_STATUS_CONFLICT)
+			{
+				log_type = "warning";
+				log_message = "PACE returned following error message: " + response.get("message") + ". Most likely there is another update pending, which is why it is a warning.";
+				standalone.developerLog(function_name,log_type,log_message,zoho.loginuserid,opt_data);
+				response_map.put(RESPONSE_KEY_SUCCESS,false);
+				response_map.put(RESPONSE_KEY_MESSAGE,log_message);
+				return response_map;
+			}
+			else if(response.get("code").startsWith(HTTP_STATUS_PREFIX_CLIENT_ERROR))
+			{
+				log_type = "critical";
+				log_message = "PACE returned following error message: " + response;
+				standalone.developerLog(function_name,log_type,log_message,zoho.loginuserid,opt_data);
+				response_map.put(RESPONSE_KEY_SUCCESS,false);
+				response_map.put(RESPONSE_KEY_MESSAGE,"PACE returned following error message: " + response);
+				return response_map;
+			}
+		}
+
+		// Success response
+		response_map.put(RESPONSE_KEY_SUCCESS,true);
+		response_map.put(RESPONSE_KEY_MESSAGE,response);
+		return response_map;
+	}
+	catch (e)
+	{
+		log_type = "error";
+		log_message = e;
+		standalone.developerLog(function_name,log_type,log_message,zoho.loginuserid,opt_data);
+		response_map.put(RESPONSE_KEY_SUCCESS,false);
+		response_map.put(RESPONSE_KEY_MESSAGE,e);
+		return response_map;
+	}
+
+	return "UNREACHABLE_RETURN";
+}

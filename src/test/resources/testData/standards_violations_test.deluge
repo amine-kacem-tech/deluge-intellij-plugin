@@ -1,0 +1,105 @@
+// Test file: all coding standards violations for DelugeStandardsAnnotator verification
+// Each section tests a specific check
+
+// ============================================================
+// CHECK 1: Forbidden methods - should show ERROR
+// ============================================================
+result = response.isNotNull();
+flag = value.toBoolean();
+items = my_list.empty;
+
+// This should NOT be flagged (isEmpty is valid per v2.3):
+is_blank = my_list.isEmpty();
+
+// ============================================================
+// CHECK 2: Typed variable declarations - should show ERROR
+// ============================================================
+map my_data = Map();
+list my_items = List();
+string my_name = "hello";
+int my_count = 0;
+bool my_flag = true;
+
+// ============================================================
+// CHECK 3: throw statements - should show ERROR
+// ============================================================
+throw "Something went wrong";
+
+// ============================================================
+// CHECK 4: Ternary operator - should show ERROR
+// ============================================================
+result = condition ? "yes" : "no";
+
+// ============================================================
+// CHECK 5: Java-style for loop - should show ERROR
+// ============================================================
+for (i = 0; i < 10; i = i + 1)
+{
+    info i;
+}
+
+// This should NOT be flagged (correct for each):
+for each item in my_list
+{
+    info item;
+}
+
+// ============================================================
+// CHECK 6: Wrong function return type - should show ERROR
+// ============================================================
+void standalone.badReturnType(string param1)
+{
+    info "wrong - standalone needs string return";
+}
+
+// Correct return type (should NOT be flagged):
+string standalone.goodFunction(string param1)
+{
+    try
+    {
+        info "correct";
+    }
+    catch(e)
+    {
+        info e;
+    }
+    return "done";
+}
+
+// ============================================================
+// CHECK 7: Missing try/catch - should show WARNING
+// ============================================================
+string standalone.noTryCatch(string param1)
+{
+    info "no try catch here";
+    return "done";
+}
+
+// ============================================================
+// CHECK 8: Missing fake return after catch - should show WARNING
+// ============================================================
+string standalone.noFakeReturn(string param1)
+{
+    try
+    {
+        info "doing work";
+    }
+    catch(e)
+    {
+        info e;
+    }
+    // Missing return statement here!
+}
+
+// ============================================================
+// CHECK 9: Variable naming (not snake_case) - should show WEAK_WARNING
+// ============================================================
+myVariable = "bad";
+firstName = "bad";
+lastName = "bad";
+
+// These should NOT be flagged:
+my_variable = "good";
+first_name = "good";
+CONSTANT_VALUE = "good";
+i = 0;

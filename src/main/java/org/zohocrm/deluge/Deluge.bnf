@@ -1,0 +1,93 @@
+{
+  parserClass="org.zohocrm.deluge.parser.DelugeParser"
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+  psiClassPrefix="Deluge"
+  psiImplClassSuffix="Impl"
+  psiPackage="org.zohocrm.deluge.psi"
+  psiImplPackage="org.zohocrm.deluge.psi.impl"
+  elementTypeHolderClass="org.zohocrm.deluge.psi.DelugeTypes"
+  elementTypeClass="org.zohocrm.deluge.psi.DelugeElementType"
+  tokenTypeClass="org.zohocrm.deluge.psi.DelugeTokenType"
+  tokens=                             [
+    // Whitespace
+    WHITE_SPACE='regexp:\s+'
+
+    // Comments
+    LINE_COMMENT='regexp://[^\r\n]*'
+    BLOCK_COMMENT='regexp:/\*([^*]|\*+[^*/])*\*+/'
+
+    // Keywords - Types
+    VOID='void'
+    STRING_TYPE='string'
+    MAP_TYPE='map'
+    INT_TYPE='int'
+    LIST_TYPE='list'
+    BOOL_TYPE='bool'
+
+    // Keywords - Control Flow
+    IF='if'
+    ELSE='else'
+    FOR='for'
+    EACH='each'
+    IN='in'
+    WHILE='while'
+    RETURN='return'
+    BREAK='break'
+    CONTINUE='continue'
+    TRY='try'
+    CATCH='catch'
+
+    // Boolean literals
+    TRUE='true'
+    FALSE='false'
+    NULL='null'
+
+    // Operators
+    PLUS='+'
+    MINUS='-'
+    MULTIPLY='*'
+    DIVIDE='/'
+    ASSIGN='='
+    EQUALS='=='
+    NOT_EQUALS='!='
+    GREATER_THAN='>'
+    LESS_THAN='<'
+    GREATER_EQUALS='>='
+    LESS_EQUALS='<='
+    AND='&&'
+    OR='||'
+    NOT='!'
+
+    // Delimiters
+    LBRACE='{'
+    RBRACE='}'
+    LPAREN='('
+    RPAREN=')'
+    LBRACKET='['
+    RBRACKET=']'
+    SEMICOLON=';'
+    COMMA=','
+    DOT='.'
+    COLON=':'
+
+    // Literals
+    IDENTIFIER='regexp:[a-zA-Z_][a-zA-Z0-9_]*'
+    NUMBER='regexp:[0-9]+'
+    DECIMAL='regexp:[0-9]+\.[0-9]+'
+    STRING='regexp:("([^"\\]|\\.)*"|' + "'([^'\\]|\\.)*')"
+  ]
+}
+
+// Root rule - accepts anything
+delugeFile ::= any_token*
+
+// Match any token - this makes the parser permissive
+private any_token ::= IDENTIFIER | STRING | NUMBER | DECIMAL |
+                       VOID | STRING_TYPE | MAP_TYPE | INT_TYPE | LIST_TYPE | BOOL_TYPE |
+                       IF | ELSE | FOR | EACH | IN | WHILE | RETURN | BREAK | CONTINUE | TRY | CATCH |
+                       TRUE | FALSE | NULL |
+                       PLUS | MINUS | MULTIPLY | DIVIDE | ASSIGN | EQUALS | NOT_EQUALS |
+                       GREATER_THAN | LESS_THAN | GREATER_EQUALS | LESS_EQUALS | AND | OR | NOT |
+                       LPAREN | RPAREN | LBRACE | RBRACE | LBRACKET | RBRACKET |
+                       SEMICOLON | COMMA | DOT | COLON
+

@@ -1,0 +1,201 @@
+<templateSet group="Deluge">
+    <!-- Standalone Function Template -->
+    <template
+            name="standalone"
+            value="string standalone.$FUNCTION_NAME$($PARAMS$)&#10;{&#10;    /*&#10;     * Function Name: $FUNCTION_NAME$&#10;     * Author: $USER$&#10;     * Parameters:&#10;     *     $PARAMS_DESC$&#10;     *&#10;     * Description: $DESCRIPTION$&#10;     *&#10;     * Info:#&#10;     * 1. $STEP1$&#10;     *&#10;     * Return Sample:&#10;     * {&#10;     *     &quot;status&quot;: &quot;success&quot;,&#10;     *     &quot;data&quot;: {}&#10;     * }&#10;     */&#10;    &#10;    /* ========================== For Testing Start ========================== */&#10;    // $TEST_CODE$&#10;    /* =========================== For Testing End =========================== */&#10;    &#10;    // ===== Initialization =====&#10;    function_name = &quot;$FUNCTION_NAME$&quot;;&#10;    log_type = &quot;info&quot;;&#10;    log_message = &quot;&quot;;&#10;    opt_data = &quot;&quot;;&#10;    &#10;    try&#10;    {&#10;        // ===== Input Validation =====&#10;        $VALIDATION$&#10;        &#10;        // ===== Business Logic =====&#10;        $END$&#10;        &#10;        // ===== Build Success Response =====&#10;        return {&quot;status&quot;:&quot;success&quot;,&quot;data&quot;:result_data};&#10;    }&#10;    catch (e)&#10;    {&#10;        // ===== Error Logging =====&#10;        log_type = &quot;error&quot;;&#10;        log_message = e;&#10;        standalone.developerLog(function_name,log_type,log_message,zoho.loginuserid,opt_data);&#10;        return {&quot;status&quot;:&quot;error&quot;,&quot;message&quot;:e};&#10;    }&#10;    &#10;    return &quot;FAKE_RETURN_TO_SATISFY_DELUGE&quot;; // Should never be reached&#10;}"
+            description="Standalone function template (Deluge Standards v2.3)"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="FUNCTION_NAME" expression="" defaultValue="&quot;functionName&quot;" alwaysStopAt="true"/>
+        <variable name="PARAMS" expression="" defaultValue="&quot;String param1&quot;" alwaysStopAt="true"/>
+        <variable name="USER" expression="user()" defaultValue="" alwaysStopAt="false"/>
+        <variable name="PARAMS_DESC" expression="" defaultValue="&quot;param1 (String) - description&quot;" alwaysStopAt="true"/>
+        <variable name="DESCRIPTION" expression="" defaultValue="&quot;Function description&quot;" alwaysStopAt="true"/>
+        <variable name="STEP1" expression="" defaultValue="&quot;Validate input parameters&quot;" alwaysStopAt="true"/>
+        <variable name="TEST_CODE" expression="" defaultValue="&quot;// param1 = \&quot;test_value\&quot;;&quot;" alwaysStopAt="true"/>
+        <variable name="VALIDATION" expression="" defaultValue="&quot;if(isNull(param1) || param1 == \&quot;\&quot;)&#10;        {&#10;            return {\&quot;status\&quot;:\&quot;error\&quot;,\&quot;message\&quot;:\&quot;Param1 is required\&quot;};&#10;        }&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- Automation Function Template -->
+    <template
+            name="automation"
+            value="void automation.$FUNCTION_NAME$($PARAMS$)&#10;{&#10;    /*&#10;     * Function Name: $FUNCTION_NAME$&#10;     * Description: $DESCRIPTION$&#10;     *&#10;     * Note: Automation functions use void return type&#10;     * No fake return is required&#10;     */&#10;    &#10;    try&#10;    {&#10;        // ===== Input Validation =====&#10;        $VALIDATION$&#10;        &#10;        // ===== Business Logic =====&#10;        $END$&#10;    }&#10;    catch (e)&#10;    {&#10;        // ===== Error Logging =====&#10;        function_name = &quot;$FUNCTION_NAME$&quot;;&#10;        log_type = &quot;error&quot;;&#10;        standalone.developerLog(function_name,log_type,e,zoho.loginuserid,&quot;&quot;);&#10;    }&#10;}"
+            description="Automation function template (Deluge Standards v2.3)"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="FUNCTION_NAME" expression="" defaultValue="&quot;functionName&quot;" alwaysStopAt="true"/>
+        <variable name="PARAMS" expression="" defaultValue="&quot;Int recordId&quot;" alwaysStopAt="true"/>
+        <variable name="DESCRIPTION" expression="" defaultValue="&quot;Automation function description&quot;" alwaysStopAt="true"/>
+        <variable name="VALIDATION" expression="" defaultValue="&quot;if(isNull(recordId))&#10;        {&#10;            // Handle error&#10;            return;&#10;        }&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- Try-Catch Block -->
+    <template
+            name="try"
+            value="try &#10;{&#10;    $SELECTION$&#10;    $END$&#10;}&#10;catch (e)&#10;{&#10;    // Error handling&#10;    $ERROR_HANDLING$&#10;}"
+            description="Try-catch block"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="ERROR_HANDLING" expression="" defaultValue="&quot;info e;&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- Developer Log -->
+    <template
+            name="log"
+            value="standalone.developerLog($FUNCTION_NAME$,$LOG_TYPE$,$MESSAGE$,zoho.loginuserid,$OPT_DATA$);"
+            description="Developer log call"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="FUNCTION_NAME" expression="" defaultValue="&quot;functionName&quot;" alwaysStopAt="true"/>
+        <variable name="LOG_TYPE" expression="" defaultValue="&quot;\&quot;error\&quot;&quot;" alwaysStopAt="true"/>
+        <variable name="MESSAGE" expression="" defaultValue="&quot;e&quot;" alwaysStopAt="true"/>
+        <variable name="OPT_DATA" expression="" defaultValue="&quot;\&quot;\&quot;&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- For Each Loop -->
+    <template
+            name="foreach"
+            value="for each $ITEM$ in $LIST$&#10;{&#10;    $END$&#10;}"
+            description="For each loop"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="ITEM" expression="" defaultValue="&quot;item&quot;" alwaysStopAt="true"/>
+        <variable name="LIST" expression="" defaultValue="&quot;list&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- If Null Check -->
+    <template
+            name="ifnull"
+            value="if(isNull($VAR$))&#10;{&#10;    $END$&#10;}"
+            description="If null check"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="VAR" expression="" defaultValue="&quot;variable&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- Validation Rule Template -->
+    <template
+            name="validation"
+            value="map validation_rule.$FUNCTION_NAME$(String crmAPIRequest)&#10;{&#10;    /*&#10;     * Function Name: $FUNCTION_NAME$&#10;     * Description: $DESCRIPTION$&#10;     * Returns: Map with status key (success/error)&#10;     */&#10;    &#10;    entity_map = crmAPIRequest.toMap().get(&quot;record&quot;);&#10;    response = Map();&#10;    &#10;    try&#10;    {&#10;        // ===== Input Validation =====&#10;        $VALIDATION$&#10;        &#10;        // ===== Business Logic =====&#10;        $END$&#10;        &#10;        // ===== On Success =====&#10;        response.put('status','success');&#10;        &#10;        // ===== On Error (example) =====&#10;        // response.put('status','error');&#10;        // response.put('message', 'Validation error message (max 100 chars)');&#10;    }&#10;    catch (e)&#10;    {&#10;        response.put('status','error');&#10;        response.put('message', 'Validation failed');&#10;    }&#10;    &#10;    return response;&#10;}"
+            description="Validation rule template (Deluge Standards v2.3)"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="FUNCTION_NAME" expression="" defaultValue="&quot;validateRecord&quot;" alwaysStopAt="true"/>
+        <variable name="DESCRIPTION" expression="" defaultValue="&quot;Validation rule description&quot;" alwaysStopAt="true"/>
+        <variable name="VALIDATION" expression="" defaultValue="&quot;// field_value = entity_map.get(\&quot;Field_Name\&quot;);&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- Get Record By ID -->
+    <template
+            name="getrecord"
+            value="$ID_LONG$ = $ID$.toLong();&#10;$RECORD$ = zoho.crm.getRecordById(&quot;$MODULE$&quot;,$ID_LONG$);&#10;$RECORD$ = ifnull($RECORD$,Map());"
+            description="Get record by ID with ID conversion"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="ID" expression="" defaultValue="&quot;record_id&quot;" alwaysStopAt="true"/>
+        <variable name="ID_LONG" expression="" defaultValue="&quot;record_long&quot;" alwaysStopAt="true"/>
+        <variable name="RECORD" expression="" defaultValue="&quot;record&quot;" alwaysStopAt="true"/>
+        <variable name="MODULE" expression="" defaultValue="&quot;Deals&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- Update Record -->
+    <template
+            name="updaterecord"
+            value="update_map = Map();&#10;update_map.put(&quot;$FIELD$&quot;,$VALUE$);&#10;if(update_map.size() &gt; 0)&#10;{&#10;    $ID_LONG$ = $ID$.toLong();&#10;    response = zoho.crm.updateRecord(&quot;$MODULE$&quot;,$ID_LONG$,update_map);&#10;}"
+            description="Update record with validation and ID conversion"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="FIELD" expression="" defaultValue="&quot;Field_Name&quot;" alwaysStopAt="true"/>
+        <variable name="VALUE" expression="" defaultValue="&quot;value&quot;" alwaysStopAt="true"/>
+        <variable name="MODULE" expression="" defaultValue="&quot;Deals&quot;" alwaysStopAt="true"/>
+        <variable name="ID" expression="" defaultValue="&quot;record_id&quot;" alwaysStopAt="true"/>
+        <variable name="ID_LONG" expression="" defaultValue="&quot;record_long&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- Pagination Pattern -->
+    <template
+            name="pagination"
+            value="current_page = 1;&#10;page_size = 200;&#10;max_pages = ceil($RECORD_COUNT$ / page_size);&#10;counter = leftpad(&quot;1&quot;,max_pages).replaceAll(&quot; &quot;,&quot;1,&quot;).toList();&#10;&#10;$RESULT_LIST$ = list();&#10;for each index i in counter&#10;{&#10;    // Fetch page data&#10;    $END$&#10;    &#10;    current_page = current_page + 1;&#10;}"
+            description="Pagination pattern with snake_case"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="RECORD_COUNT" expression="" defaultValue="&quot;record_count&quot;" alwaysStopAt="true"/>
+        <variable name="RESULT_LIST" expression="" defaultValue="&quot;result_list&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- Schedule Function Template -->
+    <template
+            name="schedule"
+            value="void schedule.$FUNCTION_NAME$()&#10;{&#10;    /*&#10;     * Function Name: $FUNCTION_NAME$&#10;     * Description: $DESCRIPTION$&#10;     * Schedule: $SCHEDULE_INFO$&#10;     */&#10;    &#10;    try&#10;    {&#10;        // ===== Business Logic =====&#10;        $END$&#10;    }&#10;    catch (e)&#10;    {&#10;        // ===== Error Logging =====&#10;        function_name = &quot;$FUNCTION_NAME$&quot;;&#10;        log_type = &quot;error&quot;;&#10;        standalone.developerLog(function_name,log_type,e,zoho.loginuserid,&quot;&quot;);&#10;    }&#10;    &#10;    return;&#10;}"
+            description="Schedule function template (Deluge Standards v2.3)"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="FUNCTION_NAME" expression="" defaultValue="&quot;scheduledTask&quot;" alwaysStopAt="true"/>
+        <variable name="DESCRIPTION" expression="" defaultValue="&quot;Scheduled task description&quot;" alwaysStopAt="true"/>
+        <variable name="SCHEDULE_INFO" expression="" defaultValue="&quot;Runs daily at midnight&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- Button Function Template -->
+    <template
+            name="button"
+            value="string button.$FUNCTION_NAME$(String recordId)&#10;{&#10;    /*&#10;     * Function Name: $FUNCTION_NAME$&#10;     * Description: $DESCRIPTION$&#10;     * Returns: Success/error message string&#10;     */&#10;    &#10;    try&#10;    {&#10;        // ===== Input Validation =====&#10;        if(isNull(recordId) || recordId == &quot;&quot;)&#10;        {&#10;            return &quot;Error: Record ID is required&quot;;&#10;        }&#10;        &#10;        record_long = recordId.toLong();&#10;        &#10;        // ===== Business Logic =====&#10;        $END$&#10;        &#10;        return &quot;Success: $SUCCESS_MESSAGE$&quot;;&#10;    }&#10;    catch (e)&#10;    {&#10;        // ===== Error Logging =====&#10;        function_name = &quot;$FUNCTION_NAME$&quot;;&#10;        standalone.developerLog(function_name,&quot;error&quot;,e,zoho.loginuserid,&quot;&quot;);&#10;        return &quot;Error: &quot; + e;&#10;    }&#10;    &#10;    return &quot;&quot;;&#10;}"
+            description="Button function template (Deluge Standards v2.3)"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="FUNCTION_NAME" expression="" defaultValue="&quot;buttonAction&quot;" alwaysStopAt="true"/>
+        <variable name="DESCRIPTION" expression="" defaultValue="&quot;Button action description&quot;" alwaysStopAt="true"/>
+        <variable name="SUCCESS_MESSAGE" expression="" defaultValue="&quot;Operation completed successfully&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+    <!-- Related List Function Template -->
+    <template
+            name="relatedlist"
+            value="string related_list.$FUNCTION_NAME$(Int recordId)&#10;{&#10;    /*&#10;     * Function Name: $FUNCTION_NAME$&#10;     * Description: $DESCRIPTION$&#10;     * Returns: XML string&#10;     */&#10;    &#10;    try&#10;    {&#10;        // ===== Input Validation =====&#10;        if(isNull(recordId))&#10;        {&#10;            return &quot;&lt;error&gt;&lt;message&gt;Record ID is required&lt;/message&gt;&lt;/error&gt;&quot;;&#10;        }&#10;        &#10;        // ===== Business Logic =====&#10;        $END$&#10;        &#10;        // ===== Build XML Response =====&#10;        response_xml = &quot;&lt;record&gt;&lt;/record&gt;&quot;;&#10;        return response_xml;&#10;    }&#10;    catch (e)&#10;    {&#10;        // ===== Error Logging =====&#10;        function_name = &quot;$FUNCTION_NAME$&quot;;&#10;        standalone.developerLog(function_name,&quot;error&quot;,e,zoho.loginuserid,&quot;&quot;);&#10;        return &quot;&lt;error&gt;&lt;message&gt;An error occurred&lt;/message&gt;&lt;/error&gt;&quot;;&#10;    }&#10;    &#10;    return &quot;&quot;;&#10;}"
+            description="Related list function template (Deluge Standards v2.3)"
+            toReformat="true"
+            toShortenFQNames="true">
+        <variable name="FUNCTION_NAME" expression="" defaultValue="&quot;getRelatedData&quot;" alwaysStopAt="true"/>
+        <variable name="DESCRIPTION" expression="" defaultValue="&quot;Related list function description&quot;" alwaysStopAt="true"/>
+        <context>
+            <option name="Deluge" value="true"/>
+        </context>
+    </template>
+
+</templateSet>
+

@@ -1,0 +1,72 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.intellij' version '1.17.2'
+    id 'org.jetbrains.grammarkit' version '2022.3.2.2'
+}
+
+group = 'org.zohocrm.deluge'
+version = '1.0.1'
+
+// Test configuration
+def runTests = false // Set to true to enable tests
+
+repositories {
+    mavenCentral()
+}
+
+// Configure IntelliJ Platform Plugin
+intellij {
+    version = '2023.2.5'
+    type = 'IC' // IntelliJ IDEA Community Edition
+    plugins = []
+}
+
+// Configure Grammar-Kit for JFlex lexer generation
+sourceSets {
+    main {
+        java {
+            srcDirs 'src/main/java', 'src/main/gen'
+        }
+    }
+}
+
+import org.jetbrains.grammarkit.tasks.GenerateLexerTask
+
+tasks.register('generateDelugeLexer', GenerateLexerTask) {
+    sourceFile = file('src/main/java/org/zohocrm/deluge/DelugeLexer.flex')
+    targetOutputDir = file('src/main/gen/org/zohocrm/deluge')
+    purgeOldFiles = true
+}
+
+compileJava.dependsOn generateDelugeLexer
+
+dependencies {
+    // IntelliJ Platform tests use JUnit 3 style tests
+    // No explicit JUnit dependency needed as it's provided by intellij-gradle-plugin
+}
+
+tasks {
+    patchPluginXml {
+        sinceBuild = '232'
+        untilBuild = '253.*'
+    }
+
+    signPlugin {
+        certificateChain = ''
+        privateKey = ''
+        password = ''
+    }
+
+    publishPlugin {
+        token = ''
+    }
+
+    test {
+        // IntelliJ Platform test configuration
+        enabled = runTests
+        testLogging {
+            events "passed", "skipped", "failed"
+            exceptionFormat "full"
+        }
+    }
+}
