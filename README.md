@@ -96,7 +96,6 @@ Type any shortcut and press **Tab** to expand:
 | [INSTALLATION_AND_USAGE_GUIDE.md](INSTALLATION_AND_USAGE_GUIDE.md) | Complete usage guide |
 | [CODING_STANDARDS_README.md](CODING_STANDARDS_README.md) | Detailed standards documentation |
 | [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md) | Technical implementation details |
-| [copilot/DELUGE_CODING_STANDARDS_v2.3.md](copilot/DELUGE_CODING_STANDARDS_v2.3.md) | Full standards specification |
 
 ---
 
@@ -310,19 +309,15 @@ gradlew.bat buildPlugin
 
 ## 🤝 Support
 
-For questions or issues:
-1. Review documentation in `copilot/` folder
-2. Check `CODING_STANDARDS_README.md`
-3. Contact Zoho CRM development team
+For questions or issues, please open a [GitHub Issue](../../issues).
 
 ---
 
-## 📄 License & Credits
+## 📄 License
 
-**Organization:** Zoho CRM  
-**Standards Version:** 2.3  
-**Plugin Version:** 1.0-SNAPSHOT  
-**Last Updated:** February 13, 2026
+This project is open-source and available under the [MIT License](LICENSE).
+
+Copyright (c) 2026 Amine Kacem
 
 ---
 
