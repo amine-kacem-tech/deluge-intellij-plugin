@@ -1,7 +1,8 @@
 # Deluge Language Support for IntelliJ IDEA
 
 ![Status](https://img.shields.io/badge/status-ready-brightgreen)
-![Version](https://img.shields.io/badge/version-1.0--SNAPSHOT-blue)
+![Version](https://img.shields.io/badge/version-1.0.4-blue)
+[![JetBrains Marketplace](https://img.shields.io/jetbrains/plugin/v/org.zohocrm.deluge.svg)](https://plugins.jetbrains.com/plugin/org.zohocrm.deluge)
 ![Standards](https://img.shields.io/badge/standards-v2.3-orange)
 
 **Professional language support for Zoho Deluge scripting language with built-in enforcement of Zoho CRM coding standards.**
@@ -27,7 +28,14 @@ An IntelliJ IDEA plugin that provides **comprehensive language support** for Del
 
 ## 📦 Quick Start
 
-### Install (2 Minutes)
+### Install from JetBrains Marketplace (Recommended)
+
+1. Open IntelliJ IDEA
+2. `File → Settings → Plugins → Marketplace`
+3. Search for **"Deluge Language Support"**
+4. Click **Install** and restart IntelliJ IDEA
+
+### Install from Disk (Build Locally)
 
 ```bash
 # 1. Build the plugin
@@ -36,7 +44,7 @@ gradlew.bat buildPlugin
 
 # 2. Install in IntelliJ IDEA
 # File → Settings → Plugins → Install Plugin from Disk
-# Select: build/distributions/deluge-intellij-plugin-1.0-SNAPSHOT.zip
+# Select: build/distributions/deluge-intellij-plugin-1.0.4.zip
 # Restart IntelliJ IDEA
 ```
 
@@ -249,7 +257,7 @@ gradlew.bat clean build
 ### Generate Distribution
 ```bash
 gradlew.bat buildPlugin
-# Output: build/distributions/deluge-intellij-plugin-1.0-SNAPSHOT.zip
+# Output: build/distributions/deluge-intellij-plugin-1.0.4.zip
 ```
 
 ---
