@@ -48,6 +48,10 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <h3>1.0.4</h3>
+        <ul>
+            <li>Removed IDE upper-bound cap — plugin is now compatible with IntelliJ 2023.2 and all newer versions (including 2025.3+ / build 253+)</li>
+        </ul>
         <h3>1.0.1</h3>
         <ul>
             <li>Initial public release</li>
