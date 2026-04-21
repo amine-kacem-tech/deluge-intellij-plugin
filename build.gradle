@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'org.zohocrm.deluge'
-version = '1.0.2'
+version = '1.0.3'
 
 // Test configuration
 def runTests = false // Set to true to enable tests
